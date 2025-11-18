@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
-import { getProducts, deleteProduct } from "../services/api";
+import { getPosts, deletePost } from "../services/api";
 
-const ProductList = ({ onEdit }) => {
-  const [products, setProducts] = useState([]);
+const PostList = ({ onEdit }) => {
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
 
-  const fetchProducts = async () => {
+  const fetchPosts = async () => {
     setLoading(true);
     try {
-      const response = await getProducts();
-      setProducts(response.data || []);
+      const response = await getPosts();
+      setPosts(response.data || []);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching posts:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchPosts();
   }, []);
 
   const handleDelete = async (id) => {
@@ -27,8 +27,8 @@ const ProductList = ({ onEdit }) => {
 
     setDeletingId(id);
     try {
-      await deleteProduct(id);
-      fetchProducts();
+      await deletePost(id);
+      fetchPosts();
     } catch (error) {
       alert("Gagal menghapus data");
       console.error(error);
@@ -46,43 +46,45 @@ const ProductList = ({ onEdit }) => {
           <tr>
             <th>NO</th>
             <th>Name</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Category</th>
+            <th>Email</th>
+            <th>Content</th>
+            <th>User Email</th>
             <th>Aksi</th>
           </tr>
         </thead>
+
         <tbody>
-          {products.length === 0 && (
+          {posts.length === 0 && (
             <tr>
               <td colSpan={6} className="text-center">
                 Tidak ada data
               </td>
             </tr>
           )}
-          {products.map((product, i) => (
-            <tr key={product.id}>
+
+          {posts.map((post, i) => (
+            <tr key={post.id}>
               <td>{i + 1}</td>
-              <td>{product.name}</td>
-              <td>Rp {product.price.toLocaleString("id-ID")}</td>
-              <td>{product.stock}</td>
-              <td>{product.category?.title || "-"}</td>
+              <td>{post.name}</td>
+              <td>{post.title}</td>
+              <td>{post.content}</td>
+              <td>{post.User?.email || "-"}</td>
+
               <td>
                 <button
                   className="btn btn-sm btn-warning me-2"
-                  onClick={() => onEdit(product)}
-                  disabled={deletingId === product.id}
-                  aria-label={`Edit ${product.name}`}
+                  onClick={() => onEdit(post)}
+                  disabled={deletingId === post.id}
                 >
                   Edit
                 </button>
+
                 <button
                   className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(product.id)}
-                  disabled={deletingId === product.id}
-                  aria-label={`Delete ${product.name}`}
+                  onClick={() => handleDelete(post.id)}
+                  disabled={deletingId === post.id}
                 >
-                  {deletingId === product.id ? "Menghapus..." : "Delete"}
+                  {deletingId === post.id ? "Menghapus..." : "Delete"}
                 </button>
               </td>
             </tr>
@@ -93,4 +95,4 @@ const ProductList = ({ onEdit }) => {
   );
 };
 
-export default ProductList;
+export default PostList;

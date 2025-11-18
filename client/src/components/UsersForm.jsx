@@ -1,26 +1,29 @@
 import { useState, useEffect } from "react";
-import { createCategory, updateCategory } from "../services/api";
+import { createUser, updateUser } from "../services/api";
 
-const CategoryForm = ({ category, onSuccess }) => {
-  const [title, setTitle] = useState("");
+const UsersForm = ({ user, onSuccess }) => {
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
-    if (category) {
-      setTitle(category.title);
+    if (user) {
+      setEmail(user.email);
     }
-  }, [category]);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      if (category) {
-        await updateCategory(category.id, { title });
+      if (user) {
+        await updateUser(user.id, { email });
       } else {
-        await createCategory({ title });
+        await createUser({ email });
       }
-      setTitle("");
+
+      setEmail("");
       onSuccess();
     } catch (error) {
+      console.error(error);
       alert("Gagal menyimpan data");
     }
   };
@@ -28,27 +31,30 @@ const CategoryForm = ({ category, onSuccess }) => {
   return (
     <div className="card mb-4">
       <div className="card-body">
-        <h5 className="card-title">{category ? "Edit" : "Tambah"} Kategori</h5>
+        <h5 className="card-title">{user ? "Edit User" : "Tambah User"}</h5>
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">Title</label>
+            <label className="form-label">Email</label>
             <input
               type="text"
               className="form-control"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
+
           <button type="submit" className="btn btn-primary">
             Simpan
           </button>
-          {category && (
+
+          {user && (
             <button
               type="button"
               className="btn btn-secondary ms-2"
               onClick={() => {
-                setTitle("");
+                setEmail("");
                 onSuccess();
               }}
             >
@@ -61,4 +67,4 @@ const CategoryForm = ({ category, onSuccess }) => {
   );
 };
 
-export default CategoryForm;
+export default UsersForm;
