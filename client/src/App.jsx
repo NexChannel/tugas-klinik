@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Router, Link, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import DokterPage from "./pages/DokterPages";
 import PasienPage from "./pages/PasienPages";
 
@@ -8,7 +8,7 @@ function App() {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            react CRUD
+            React CRUD
           </Link>
           <div className="navbar-nav">
             <Link className="nav-link" to="/dokter">
@@ -20,6 +20,7 @@ function App() {
           </div>
         </div>
       </nav>
+
       <Routes>
         <Route
           path="/"

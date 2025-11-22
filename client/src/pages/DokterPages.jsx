@@ -13,7 +13,7 @@ const DokterPage = () => {
   return (
     <div className="container py-4">
       <h2 className="mb-4"> Manajemen Dokter</h2>
-      <DokterForm category={selected} onSuccess={handleSuccess} />
+      <DokterForm doctor={selected} onSuccess={handleSuccess} />
       <DokterList key={refresh} onEdit={setSelected} />
     </div>
   );

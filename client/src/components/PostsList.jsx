@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getPatients, deletePatient } from "../services/api";
 
-const PasienList = ({ onEdit }) => {
+const PostList = ({ onEdit }) => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
@@ -96,4 +96,4 @@ const PasienList = ({ onEdit }) => {
   );
 };
 
-export default PasienList;
+export default PostList;

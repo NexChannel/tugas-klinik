@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
-import { createCategory, updateCategory } from "../services/api";
+import { createDoctor, updateDoctor } from "../services/api";
 
-const DokterForm = ({ category, onSuccess }) => {
+const DokterForm = ({ doctor, onSuccess }) => {
   const [nama, setNama] = useState("");
   const [spesialisasi, setSpesialisasi] = useState("");
   const [analisa, setAnalisa] = useState("");
   const [nomorHp, setNomorHp] = useState("");
 
   useEffect(() => {
-    if (category) {
-      setNama(category.nama || "");
-      setSpesialisasi(category.spesialisasi || "");
-      setAnalisa(category.analisa || "");
-      setNomorHp(category.nomor_hp || "");
+    if (doctor) {
+      setNama(doctor.nama || "");
+      setSpesialisasi(doctor.spesialisasi || "");
+      setAnalisa(doctor.analisa || "");
+      setNomorHp(doctor.nomor_hp || "");
     } else {
       setNama("");
       setSpesialisasi("");
       setAnalisa("");
       setNomorHp("");
     }
-  }, [category]);
+  }, [doctor]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,10 +30,10 @@ const DokterForm = ({ category, onSuccess }) => {
         analisa,
         nomor_hp: nomorHp,
       };
-      if (category) {
-        await updateCategory(category.id, payload);
+      if (doctor) {
+        await updateDoctor(doctor.id, payload);
       } else {
-        await createCategory(payload);
+        await createDoctor(payload);
       }
       setNama("");
       setSpesialisasi("");
@@ -48,7 +48,7 @@ const DokterForm = ({ category, onSuccess }) => {
   return (
     <div className="card mb-4">
       <div className="card-body">
-        <h5 className="card-title">{category ? "Edit" : "Tambah"} Dokter</h5>
+        <h5 className="card-title">{doctor ? "Edit" : "Tambah"} Dokter</h5>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Nama Dokter</label>
@@ -89,7 +89,7 @@ const DokterForm = ({ category, onSuccess }) => {
           <button type="submit" className="btn btn-primary">
             Simpan
           </button>
-          {category && (
+          {doctor && (
             <button
               type="button"
               className="btn btn-secondary ms-2"

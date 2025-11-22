@@ -1,37 +1,37 @@
 import { useState, useEffect } from "react";
-import { createProduct, updateProduct, getCategories } from "../services/api";
+import { createPatient, updatePatient, getDoctors } from "../services/api";
 
-const PasienForm = ({ product, onSuccess }) => {
+const PasienForm = ({ patient, onSuccess }) => {
   const [formData, setFormData] = useState({
     nama_pasien: "",
     obat: "",
     keluhan: "",
     DoctorId: "",
   });
-  const [categories, setCategories] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (product) {
+    if (patient) {
       setFormData({
-        nama_pasien: product.nama_pasien || "",
-        obat: product.obat || "",
-        keluhan: product.keluhan || "",
-        DoctorId: product.DoctorId || "",
+        nama_pasien: patient.nama_pasien || "",
+        obat: patient.obat || "",
+        keluhan: patient.keluhan || "",
+        DoctorId: patient.DoctorId || "",
       });
     }
-  }, [product]);
+  }, [patient]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchDoctors = async () => {
       try {
-        const response = await getCategories();
-        setCategories(response.data || []);
+        const response = await getDoctors();
+        setDoctors(response.data || []);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching doctors:", error);
       }
     };
-    fetchCategories();
+    fetchDoctors();
   }, []);
 
   const handleChange = (e) => {
@@ -47,10 +47,10 @@ const PasienForm = ({ product, onSuccess }) => {
         DoctorId: parseInt(formData.DoctorId),
       };
 
-      if (product) {
-        await updateProduct(product.id, data);
+      if (patient) {
+        await updatePatient(patient.id, data);
       } else {
-        await createProduct(data);
+        await createPatient(data);
       }
 
       setFormData({ nama_pasien: "", obat: "", keluhan: "", DoctorId: "" });
@@ -65,14 +65,14 @@ const PasienForm = ({ product, onSuccess }) => {
 
   const handleCancel = () => {
     setFormData({ nama_pasien: "", obat: "", keluhan: "", DoctorId: "" });
-    if (product) onSuccess();
+    if (patient) onSuccess();
   };
 
   return (
     <div className="card mb-4">
       <div className="card-body">
         <h5 className="card-title">
-          {product ? "Edit" : "Tambah"} Detail Pasien
+          {patient ? "Edit" : "Tambah"} Detail Pasien
         </h5>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -117,7 +117,7 @@ const PasienForm = ({ product, onSuccess }) => {
               required
             >
               <option value="">Pilih Dokter</option>
-              {categories.map((c) => (
+              {doctors.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.nama}
                 </option>
@@ -127,7 +127,7 @@ const PasienForm = ({ product, onSuccess }) => {
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? "Menyimpan..." : "Simpan"}
           </button>
-          {product && (
+          {patient && (
             <button
               type="button"
               className="btn btn-secondary ms-2"
