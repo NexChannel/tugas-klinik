@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getProducts, deleteProduct } from "../services/api";
 
-const ProductList = ({ onEdit }) => {
+const PasienList = ({ onEdit }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
@@ -45,10 +45,10 @@ const ProductList = ({ onEdit }) => {
         <thead className="table-dark">
           <tr>
             <th>NO</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Category</th>
+            <th>Nama Pasien</th>
+            <th>Obat</th>
+            <th>Keluhan</th>
+            <th>Dokter</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -63,16 +63,16 @@ const ProductList = ({ onEdit }) => {
           {products.map((product, i) => (
             <tr key={product.id}>
               <td>{i + 1}</td>
-              <td>{product.name}</td>
-              <td>Rp {product.price.toLocaleString("id-ID")}</td>
-              <td>{product.stock}</td>
-              <td>{product.category?.title || "-"}</td>
+              <td>{product.nama_pasien}</td>
+              <td>{product.obat || "-"}</td>
+              <td>{product.keluhan || "-"}</td>
+              <td>{product.doctor?.nama || "-"}</td>
               <td>
                 <button
                   className="btn btn-sm btn-warning me-2"
                   onClick={() => onEdit(product)}
                   disabled={deletingId === product.id}
-                  aria-label={`Edit ${product.name}`}
+                  aria-label={`Edit ${product.nama_pasien}`}
                 >
                   Edit
                 </button>
@@ -80,7 +80,7 @@ const ProductList = ({ onEdit }) => {
                   className="btn btn-sm btn-danger"
                   onClick={() => handleDelete(product.id)}
                   disabled={deletingId === product.id}
-                  aria-label={`Delete ${product.name}`}
+                  aria-label={`Delete ${product.nama_pasien}`}
                 >
                   {deletingId === product.id ? "Menghapus..." : "Delete"}
                 </button>
@@ -93,4 +93,4 @@ const ProductList = ({ onEdit }) => {
   );
 };
 
-export default ProductList;
+export default PasienList;

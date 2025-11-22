@@ -1,29 +1,27 @@
 import { useState, useEffect } from "react";
 import { createProduct, updateProduct, getCategories } from "../services/api";
 
-const ProductForm = ({ product, onSuccess }) => {
+const PasienForm = ({ product, onSuccess }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    price: "",
-    stock: "",
-    CategoryId: "",
+    nama_pasien: "",
+    obat: "",
+    keluhan: "",
+    DoctorId: "",
   });
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Load product data when editing
   useEffect(() => {
     if (product) {
       setFormData({
-        name: product.name || "",
-        price: product.price || "",
-        stock: product.stock || "",
-        CategoryId: product.CategoryId || "",
+        nama_pasien: product.nama_pasien || "",
+        obat: product.obat || "",
+        keluhan: product.keluhan || "",
+        DoctorId: product.DoctorId || "",
       });
     }
   }, [product]);
 
-  // Load categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -46,9 +44,7 @@ const ProductForm = ({ product, onSuccess }) => {
     try {
       const data = {
         ...formData,
-        price: parseInt(formData.price),
-        stock: parseInt(formData.stock),
-        CategoryId: parseInt(formData.CategoryId),
+        DoctorId: parseInt(formData.DoctorId),
       };
 
       if (product) {
@@ -57,8 +53,8 @@ const ProductForm = ({ product, onSuccess }) => {
         await createProduct(data);
       }
 
-      setFormData({ name: "", price: "", stock: "", CategoryId: "" });
-      onSuccess(); // Close modal or refresh list
+      setFormData({ nama_pasien: "", obat: "", keluhan: "", DoctorId: "" });
+      onSuccess();
     } catch (error) {
       alert("Gagal menyimpan data");
       console.error(error);
@@ -68,61 +64,62 @@ const ProductForm = ({ product, onSuccess }) => {
   };
 
   const handleCancel = () => {
-    setFormData({ name: "", price: "", stock: "", CategoryId: "" });
-    if (product) onSuccess(); // Close edit mode
+    setFormData({ nama_pasien: "", obat: "", keluhan: "", DoctorId: "" });
+    if (product) onSuccess();
   };
 
   return (
     <div className="card mb-4">
       <div className="card-body">
-        <h5 className="card-title">{product ? "Edit" : "Tambah"} Produk</h5>
+        <h5 className="card-title">
+          {product ? "Edit" : "Tambah"} Detail Pasien
+        </h5>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">Nama</label>
+            <label className="form-label">Nama Pasien</label>
             <input
               type="text"
               className="form-control"
-              name="name"
-              value={formData.name}
+              name="nama_pasien"
+              value={formData.nama_pasien}
               onChange={handleChange}
               required
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Stok</label>
-            <input
-              type="number"
+            <label className="form-label">Keluhan</label>
+            <textarea
               className="form-control"
-              name="stock"
-              value={formData.stock}
+              name="keluhan"
+              value={formData.keluhan}
               onChange={handleChange}
               required
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Harga</label>
+            <label className="form-label">Obat</label>
             <input
-              type="number"
+              type="text"
               className="form-control"
-              name="price"
-              value={formData.price}
+              name="obat"
+              value={formData.obat}
               onChange={handleChange}
               required
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Kategori</label>
+            <label className="form-label">Dokter</label>
             <select
-              name="CategoryId"
+              name="DoctorId"
               className="form-select"
-              value={formData.CategoryId}
+              value={formData.DoctorId}
               onChange={handleChange}
               required
             >
-              <option value="">Pilih Kategori</option>
+              <option value="">Pilih Dokter</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.title}
+                  {c.nama}
                 </option>
               ))}
             </select>
@@ -146,4 +143,4 @@ const ProductForm = ({ product, onSuccess }) => {
   );
 };
 
-export default ProductForm;
+export default PasienForm;
