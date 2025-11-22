@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./models");
-const categoryRoutes = require("./routes/categoryroute");
-const productRoutes = require("./routes/productroute");
+const doctorRoutes = require("./routes/doctorroute");
+const patientRoutes = require("./routes/patientroute");
 
 const app = express();
 const PORT = 3000;
@@ -10,8 +10,8 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/category", categoryRoutes);
-app.use("/product", productRoutes);
+app.use("/doctor", doctorRoutes);
+app.use("/patient", patientRoutes);
 
 sequelize
   .sync()

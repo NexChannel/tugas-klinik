@@ -1,31 +1,40 @@
-import { BrowserRouter, Route, Router, Link, Routes} from "react-router-dom";
-import CategoryPage from "./pages/CategoryPages";
-import ProductPage from "./pages/ProductPages";
+import { BrowserRouter, Route, Router, Link, Routes } from "react-router-dom";
+import DokterPage from "./pages/DokterPages";
+import PasienPage from "./pages/PasienPages";
 
 function App() {
-    return (
-      <BrowserRouter>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div className="container">
-            <Link className="navbar-brand" to="/">react CRUD</Link>
-            <div className="navbar-nav">
-              <Link className="nav-link" to="/categories">Kategori</Link>
-              <Link className="nav-link" to="/products">Produk</Link>
-            </div>
+  return (
+    <BrowserRouter>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container">
+          <Link className="navbar-brand" to="/">
+            react CRUD
+          </Link>
+          <div className="navbar-nav">
+            <Link className="nav-link" to="/dokter">
+              Dokter
+            </Link>
+            <Link className="nav-link" to="/pasien">
+              Pasien
+            </Link>
           </div>
-        </nav>
-        <Routes>
-          <Route path="/" element={
-              <div className="container py-5 text-center">
-                <h1>Selamat Datang</h1>
-                <p className="lead">Silahkan pilih menu</p>
-              </div>
-            }/>
-          <Route path="/categories" element={<CategoryPage />} />
-          <Route path="/products" element={<ProductPage />} />
-        </Routes>
-      </BrowserRouter>
-    );
-  }
+        </div>
+      </nav>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="container py-5 text-center">
+              <h1>Selamat Datang</h1>
+              <p className="lead">Silahkan pilih menu</p>
+            </div>
+          }
+        />
+        <Route path="/dokter" element={<DokterPage />} />
+        <Route path="/pasien" element={<PasienPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
-export default App
+export default App;
