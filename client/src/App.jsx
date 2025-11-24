@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import DokterPage from "./pages/DokterPages";
 import PasienPage from "./pages/PasienPages";
+import ResepPage from "./pages/ResepPages";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
             </Link>
             <Link className="nav-link" to="/pasien">
               Pasien
+            </Link>
+            <Link className="nav-link" to="/resep">
+              Resep
             </Link>
           </div>
         </div>
@@ -33,6 +37,7 @@ function App() {
         />
         <Route path="/dokter" element={<DokterPage />} />
         <Route path="/pasien" element={<PasienPage />} />
+        <Route path="/resep" element={<ResepPage />} />
       </Routes>
     </BrowserRouter>
   );

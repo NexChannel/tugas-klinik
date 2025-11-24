@@ -17,4 +17,12 @@ export const getPatient = (id) => api.get(`/patient/${id}`);
 export const createPatient = (data) => api.post("/patient", data);
 export const updatePatient = (id, data) => api.put(`/patient/${id}`, data);
 export const deletePatient = (id) => api.delete(`/patient/${id}`);
+
+// Prescriptions (Resep)
+export const getPrescriptions = () => api.get("/prescription");
+export const getPrescription = (id) => api.get(`/prescription/${id}`);
+export const createPrescription = (data) => api.post("/prescription", data);
+export const updatePrescription = (id, data) =>
+  api.put(`/prescription/${id}`, data);
+export const deletePrescription = (id) => api.delete(`/prescription/${id}`);
 // ENDPOINT HARUS SAMA dengan backend
