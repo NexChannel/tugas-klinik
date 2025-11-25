@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import DokterPage from "./pages/DokterPages";
 import PasienPage from "./pages/PasienPages";
 import ResepPage from "./pages/ResepPages";
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -22,22 +24,48 @@ function App() {
               Resep
             </Link>
           </div>
+          <div className="ms-auto">
+            {localStorage.getItem("auth") === "true" ? (
+              <button
+                className="btn btn-sm btn-outline-light"
+                onClick={() => {
+                  localStorage.removeItem("auth");
+                  window.location.href = "/";
+                }}
+              >
+                Logout
+              </button>
+            ) : null}
+          </div>
         </div>
       </nav>
 
       <Routes>
+        <Route path="/" element={<LoginPage />} />
         <Route
-          path="/"
+          path="/dokter"
           element={
-            <div className="container py-5 text-center">
-              <h1>Selamat Datang</h1>
-              <p className="lead">Silahkan pilih menu</p>
-            </div>
+            <ProtectedRoute>
+              <DokterPage />
+            </ProtectedRoute>
           }
         />
-        <Route path="/dokter" element={<DokterPage />} />
-        <Route path="/pasien" element={<PasienPage />} />
-        <Route path="/resep" element={<ResepPage />} />
+        <Route
+          path="/pasien"
+          element={
+            <ProtectedRoute>
+              <PasienPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/resep"
+          element={
+            <ProtectedRoute>
+              <ResepPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
